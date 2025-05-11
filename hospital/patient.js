@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { resolve } = require("path");
 
 class Patient {
   constructor(id, name, diseases) {
@@ -106,6 +105,29 @@ class Patient {
     })
   }
 
+  static findPatientBy(option, input) {
+    return new Promise((resolve, reject) => {
+      this.findAll((err, data) => {
+        if (err) {
+          console.log(err)
+        }else {
+          const findBy = data.find(e => e.name === input || e.id === input)
+
+          if(option === "name"){
+            if(!findBy) {
+              return reject(" Can't find patient name")
+            }
+            resolve(findBy)
+          } else {
+            if(!findBy) {
+              return reject(" Can't find patient id")
+            }
+            resolve(findBy)
+          }
+        }
+      }) 
+    })
+  }
 
   static findAll(cb) {
     fs.readFile("./patient.json", "utf8", (err, data) => {

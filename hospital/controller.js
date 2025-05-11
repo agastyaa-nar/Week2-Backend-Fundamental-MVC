@@ -137,6 +137,22 @@ class HospitalController {
         }
     }
 
+    static findPatientBy(option, input) {
+        Employee.getCurrentLogin()
+            .then(() => {
+                HospitalView.ErrorView("You must login first")
+            })
+            .catch(() => {
+                Patient.findPatientBy(option, input)
+                    .then(data => {
+                        HospitalView.findPatientView(data, option)
+                    })
+                    .catch(err => {
+                        HospitalView.ErrorView(err)
+                    })
+            })
+    }
+
     static help() {
         HospitalView.CommandListView();
     }

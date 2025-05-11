@@ -3,7 +3,14 @@
     "id": "2",
     "name": "irfan",
     "diseases": [
-      "batuk"
+      "fever"
+    ]
+  },
+  {
+    "id": "1",
+    "name": "tito",
+    "diseases": [
+      "headache"
     ]
   }
 ]

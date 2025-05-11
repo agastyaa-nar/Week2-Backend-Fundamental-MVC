@@ -38,14 +38,21 @@ class HospitalView {
     }
 
     static deletePatientView(patient){
-        console.log(`Patient with id : ${patient.id} has been deleted`)
+        console.log(`Patient with id : ${patient.id} has been deleted.`)
     }
 
     static showPatientView(data) {
+        connsole.log("Patient List :")
         console.log(data)
     }
 
     static showEmployeeView(data) {
+        connsole.log("Employee List :")
+        console.log(data)
+    }
+
+    static findPatientView(data, option) {
+        console.log(`Found Patient By ${option} : `)
         console.log(data)
     }
     

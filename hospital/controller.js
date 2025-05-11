@@ -49,14 +49,32 @@ class HospitalController {
             .catch(data => {
                 if(data.position === "doctor") {
                     Patient.addPatient(id, name, diseases)
-                        .then((objArr) => {
+                        .then(objArr => {
                             HospitalView.addPatientView(objArr)
                         })
-                        .catch((err) => {
+                        .catch(err => {
                             HospitalView.ErrorView(err)
                         })
                 }else {
                     HospitalView.ErrorView("Your role not have access to this command")
+                }
+            })
+    }
+
+    static updatePatient(name, diseases){
+        Employee.getCurrentLogin()
+            .then(() => {
+                HospitalView.ErrorView("You must login first")
+            })
+            .catch(data => {
+                if(data.position === "doctor") {
+                    Patient.updatePatient(name, diseases)
+                        .then(patient => {
+                            HospitalView.updatePatientView(patient)
+                        })
+                        .catch(err => {
+                            HospitalView.ErrorView(err)
+                        })
                 }
             })
     }

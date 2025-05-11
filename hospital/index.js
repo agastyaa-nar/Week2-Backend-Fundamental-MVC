@@ -8,7 +8,7 @@ let HospitalController = require("./controller");
 > node index.js login <username> <password>
 > node index.js addPatient <id> <namaPasien> <penyakit1> <penyakit2> ....
 > node index.js updatePatient <id> <namaPasien> <penyakit1> <penyakit2> ....
-> node index.js deletePatient <id> <namaPasien> <penyakit1> <penyakit2> ....
+> node index.js deletePatient <id> 
 > node index.js logout
 > node index.js show <employee/patient> 
 > node index.js findPatientBy: <name/id> <namePatient/idPatient>
@@ -35,10 +35,15 @@ switch (command) {
         HospitalController.logout();
         break;
     
-    case "addPatient":
+    case "addPatient": {
         const [id, name, ...diseases] = argument
         HospitalController.addPatient(id, name, diseases)
         break;
+    }
+    case "updatePatient":
+        const [name, ...diseases] = argument
+        HospitalController.updatePatient(name, diseases)
+        break
 
     default:
         HospitalController.help();

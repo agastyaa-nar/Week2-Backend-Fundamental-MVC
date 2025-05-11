@@ -9,7 +9,7 @@
     "username": "Dhanar",
     "password": "narnia2104",
     "position": "doctor",
-    "login": false
+    "login": true
   },
   {
     "username": "admin1",

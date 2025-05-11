@@ -42,6 +42,32 @@ class Patient {
     })
   }
 
+  static updatePatient(name, diseases) {
+    return new Promise((resolve, reject) => {
+      this.findAll((err, data) => {
+        if (err) {
+          console.log(err)
+        }else {
+          const foundPatient = data.find(e => e.name === name)
+
+          if(!foundPatient){
+            return reject("Can't update patient : Invalid name")
+          }
+          
+          foundPatient.diseases = [...diseases]
+
+          fs.writeFile("./patient.json", JSON.stringify(data, null, 2), (err) => {
+            if (err) {
+              console.log(err)
+            } else {
+              resolve(foundPatient)
+            }
+          })
+        }
+      })
+    })
+  }
+
   static findAll(cb) {
     fs.readFile("./patient.json", "utf8", (err, data) => {
       if (err) {

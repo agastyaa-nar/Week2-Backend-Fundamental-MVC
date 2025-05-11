@@ -1,6 +1,10 @@
 class HospitalView {
     static registerView(objArr) {
-        console.log(`save data success {"username":${objArr[0].username},"password":${objArr[0].password},"role":${objArr[0].position}. Total employee : ${objArr[1]}`)
+        console.log(`save data success {
+            "username": ${objArr[0].username},
+            "password": ${objArr[0].password},
+            "role": ${objArr[0].position}
+             Total employee : ${objArr[1]}`)
     }
     
     // lanjutkan method lain
@@ -14,6 +18,14 @@ class HospitalView {
 
     static LogoutView(data) {
         console.log(`${data.username} has been logged out`)
+    }
+
+    static addPatientView(objArr) {
+        console.log(`save data success {
+            "id":${objArr[0].id},
+            "name":${objArr[0].name},
+            "diseases":${objArr[0].diseases} 
+             Total patient : ${objArr[1]}`)
     }
 
     static CommandListView(){

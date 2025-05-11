@@ -49,6 +49,8 @@ class Employee {
         if (err) {
           console.log(err)
         } else {
+          if (data.length < 1) return reject("Data not found : Please register first")
+
           const dataFound = data.find(e => e.username === name && e.password === password) 
           if (!dataFound) {
             return reject("Login Failed : Invalid username or password")

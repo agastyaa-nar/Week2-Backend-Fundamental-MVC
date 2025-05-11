@@ -34,7 +34,12 @@ switch (command) {
     case "logout":
         HospitalController.logout();
         break;
-        
+    
+    case "addPatient":
+        const [id, name, ...diseases] = argument
+        HospitalController.addPatient(id, name, diseases)
+        break;
+
     default:
         HospitalController.help();
         break;

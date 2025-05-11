@@ -41,6 +41,26 @@ class HospitalController {
             })
     }
 
+    static addPatient(id, name, diseases) {
+        Employee.getCurrentLogin()
+            .then(() => {
+                HospitalView.ErrorView("You must login first")
+            })
+            .catch(data => {
+                if(data.position === "doctor") {
+                    Patient.addPatient(id, name, diseases)
+                        .then((objArr) => {
+                            HospitalView.addPatientView(objArr)
+                        })
+                        .catch((err) => {
+                            HospitalView.ErrorView(err)
+                        })
+                }else {
+                    HospitalView.ErrorView("Your role not have access to this command")
+                }
+            })
+    }
+
     static help() {
         HospitalView.CommandListView();
     }

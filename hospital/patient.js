@@ -1,2 +1,57 @@
 const fs = require("fs");
+const { resolve } = require("path");
+
+class Patient {
+  constructor(id, name, diseases) {
+    this.id = id
+    this.name = name
+    this.diseases = diseases
+  }
+
+  static addPatient(id, name, diseases){
+    return new Promise ((resolve, reject) => {
+      this.findAll((err, data) => {
+        if (err){
+          console.log(err)
+        } else {
+          const duplicate = data.find(e => e.id === id)
+
+          if(duplicate){
+            return reject("Can't add patient : Id must be different to other")
+          }
+
+          let obj = new Patient(id, name, diseases)
+          let objArr = []
+          let newData = data;
+          
+          newData.push(obj)
+
+          objArr.push(obj)
+          objArr.push(newData.length)
+          
+          fs.writeFile("./patient.json", JSON.stringify(newData, null, 2), (err) => {
+            if (err) {
+              console.log(err)
+            } else {
+              resolve(objArr)
+            }
+          })
+
+        }
+      })
+    })
+  }
+
+  static findAll(cb) {
+    fs.readFile("./patient.json", "utf8", (err, data) => {
+      if (err) {
+        cb(err)
+      } else {
+        cb(err, JSON.parse(data));
+      }
+    })
+  }
+}
+
+ module.exports = Patient;
 

@@ -4,26 +4,47 @@ let HospitalView = require("./view");
 
 class HospitalController {
     static register(name, password, role) {
-        Employee.register(name, password, role, (err, objArr) => {
-            if (err) {
-                HospitalView.ErrorView(err);
-            } else {
-                HospitalView.registerView(objArr);
-            }
-        });
+        Employee.register(name, password, role)
+        .then(objArr => {
+            HospitalView.registerView(objArr);          
+        })
+        .catch(err => {
+            HospitalView.ErrorView(err);
+        })      
     }
 
     // lanjutkan command yang lain
 
     static login(name, password) {
-        Employee.login(name, password, (err, data) => {
-            if (err) {
-                HospitalView.ErrorView(err)
-            } else {
-                HospitalView.loginView(data)
-            }
-        })
+        Employee.getCurrentLogin()
+            .then(()=> {
+                Employee.login(name, password)
+                    .then(data => {
+                        HospitalView.loginView(data)
+                    })
+                    .catch(err => {
+                        HospitalView.ErrorView(err)
+                    })
+            })
+            .catch(()=> {
+                HospitalView.ErrorView("Please log out first")
+            })
     }
+
+    static logout(){
+        Employee.logout()
+            .then(data => {
+                HospitalView.LogoutView(data)
+            })
+            .catch(err => {
+                HospitalView.ErrorView(err)
+            })
+    }
+
+    static help() {
+        HospitalView.CommandListView();
+    }
+
 }
 
 

@@ -28,9 +28,13 @@ switch (command) {
         
     //buatlah semua command
     case "login":
-        HospitalController.login(argument[0], argument[1])
+        HospitalController.login(argument[0], argument[1]);
         break;
     
+    case "logout":
+        HospitalController.logout();
+        break;
+        
     default:
         HospitalController.help();
         break;

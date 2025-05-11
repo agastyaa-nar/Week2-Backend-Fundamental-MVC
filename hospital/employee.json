@@ -3,12 +3,18 @@
     "username": "Nia",
     "password": "lovedhanar123",
     "position": "admin",
-    "login": false
+    "login": true
   },
   {
     "username": "Dhanar",
     "password": "narnia2104",
     "position": "doctor",
-    "login": true
+    "login": false
+  },
+  {
+    "username": "admin1",
+    "password": "lovenia123",
+    "position": "admin",
+    "login": false
   }
 ]

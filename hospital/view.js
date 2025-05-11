@@ -4,12 +4,32 @@ class HospitalView {
     }
     
     // lanjutkan method lain
-    static loginView(objArr) {
-        console.log(`login success ${objArr.username} as ${objArr.position}`)
+    static loginView(data) {
+        console.log(`login success ${data.username} as ${data.position}`)
     }
 
     static ErrorView(errMessage) {
         console.log(`Error occured ( ${errMessage} )`)
+    }
+
+    static LogoutView(data) {
+        console.log(`${data.username} has been logged out`)
+    }
+
+    static CommandListView(){
+        console.log(`
+==========================
+HOSPITAL INTERFACE COMMAND
+==========================
+node index.js register <username> <password> <jabatan>
+node index.js login <username> <password>
+node index.js addPatient <namaPasien> <penyakit1> <penyakit2> ....
+node index.js updatePatient <namaPasien> <penyakit1> <penyakit2> ....
+node index.js deletePatient <id>
+node index.js logout
+node index.js show <employee/patient>
+node index.js findPatientBy: <name/id> <namePatient/idPatient>
+            `)
     }
 }
 

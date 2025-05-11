@@ -79,6 +79,24 @@ class HospitalController {
             })
     }
 
+    static deletePatient(id) {
+        Employee.getCurrentLogin()
+            .then(() => {
+                HospitalView.ErrorView("You must login first")
+            })
+            .catch(data => {
+                if(data.position === "doctor") {
+                    Patient.deletePatient(id)
+                        .then(patient => {
+                            HospitalView.deletePatientView(patient)
+                        })
+                        .catch(err => {
+                            HospitalView.ErrorView(err)
+                        })
+                }
+            })
+    }
+
     static help() {
         HospitalView.CommandListView();
     }

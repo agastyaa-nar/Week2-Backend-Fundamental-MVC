@@ -1,24 +1,9 @@
 [
   {
-    "id": "1",
-    "name": "tito",
-    "diseases": [
-      "kanker",
-      "dbd"
-    ]
-  },
-  {
     "id": "2",
     "name": "irfan",
     "diseases": [
       "batuk"
-    ]
-  },
-  {
-    "id": "3",
-    "name": "asd",
-    "diseases": [
-      "demam"
     ]
   }
 ]

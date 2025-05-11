@@ -37,6 +37,10 @@ class HospitalView {
         }`)
     }
 
+    static deletePatientView(patient){
+        console.log(`Patient with id : ${patient.id} has been deleted`)
+    }
+
     static CommandListView(){
         console.log(`
 ==========================

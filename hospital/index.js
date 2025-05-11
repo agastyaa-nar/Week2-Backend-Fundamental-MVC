@@ -45,6 +45,10 @@ switch (command) {
         HospitalController.updatePatient(name, diseases)
         break
 
+    case "deletePatient": 
+        HospitalController.deletePatient(argument[0])
+        break
+        
     default:
         HospitalController.help();
         break;

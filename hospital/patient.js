@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { resolve } = require("path");
 
 class Patient {
   constructor(id, name, diseases) {
@@ -53,7 +52,7 @@ class Patient {
           if(!foundPatient){
             return reject("Can't update patient : Invalid name")
           }
-          
+
           foundPatient.diseases = [...diseases]
 
           fs.writeFile("./patient.json", JSON.stringify(data, null, 2), (err) => {
@@ -61,6 +60,32 @@ class Patient {
               console.log(err)
             } else {
               resolve(foundPatient)
+            }
+          })
+        }
+      })
+    })
+  }
+
+  static deletePatient(id){
+    return new Promise ((resolve, reject) => {
+      this.findAll((err, data) => {
+        if(err) {
+          console.log(err)
+        }else {
+          const patient = data.find(e => e.id === id)
+
+          if(!patient) {
+            return reject("Can't delete patient : Invalid id")
+          }
+
+          const newPatient = data.filter(e => e.id !== id)
+
+          fs.writeFile("./patient.json", JSON.stringify(newPatient, null, 2), (err) => {
+            if (err) {
+              console.log(err)
+            } else {
+              resolve(patient)
             }
           })
         }

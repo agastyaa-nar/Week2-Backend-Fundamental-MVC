@@ -112,6 +112,18 @@ class Employee {
     }) 
   }
 
+  static show() {
+    return new Promise((resolve, reject) => {
+      this.findAll((err, data) => {
+        if (err) {
+          reject(err)
+        }else {
+          resolve(data)
+        }
+      }) 
+    })
+  }
+
   static findAll(cb) {
     fs.readFile("./employee.json", "utf8", (err, data) => {
       if (err) {

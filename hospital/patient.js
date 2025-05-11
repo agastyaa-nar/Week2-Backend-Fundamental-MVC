@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { resolve } = require("path");
 
 class Patient {
   constructor(id, name, diseases) {
@@ -92,6 +93,19 @@ class Patient {
       })
     })
   }
+
+  static show() {
+    return new Promise((resolve, reject) => {
+      this.findAll((err, data) => {
+        if (err) {
+          reject(err)
+        }else {
+          resolve(data)
+        }
+      }) 
+    })
+  }
+
 
   static findAll(cb) {
     fs.readFile("./patient.json", "utf8", (err, data) => {

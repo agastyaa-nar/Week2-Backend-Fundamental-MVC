@@ -75,6 +75,8 @@ class HospitalController {
                         .catch(err => {
                             HospitalView.ErrorView(err)
                         })
+                }else {
+                    HospitalView.ErrorView("Your role not have access to this command")
                 }
             })
     }
@@ -93,8 +95,46 @@ class HospitalController {
                         .catch(err => {
                             HospitalView.ErrorView(err)
                         })
+                } else {
+                    HospitalView.ErrorView("Your role not have access to this command")
                 }
             })
+    }
+
+    static show(option){
+        if(option === "employee") {
+            Employee.getCurrentLogin()
+                .then(() => {
+                    HospitalView.ErrorView("You must login first")
+                })
+                .catch(data => {
+                    if(data.position === "admin") {
+                        Employee.show()
+                            .then(data => {
+                                HospitalView.showEmployeeView(data)
+                            })
+                            .catch(err => {
+                                HospitalView.ErrorView(err)
+                            })
+                    }else {
+                        HospitalView.ErrorView("Your role not have access to this command")
+                    }
+                })
+        }else{
+            Employee.getCurrentLogin()
+                .then(() => {
+                    HospitalView.ErrorView("You must login first")
+                })
+                .catch(() => {
+                    Patient.show()
+                        .then(data => {
+                            HospitalView.showPatientView(data)
+                        })
+                        .catch(err => {
+                            HospitalView.ErrorView(err)
+                        })
+                })
+        }
     }
 
     static help() {

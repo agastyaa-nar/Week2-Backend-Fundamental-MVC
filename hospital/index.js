@@ -48,7 +48,15 @@ switch (command) {
     case "deletePatient": 
         HospitalController.deletePatient(argument[0])
         break
-        
+
+    case "show":
+        HospitalController.show(argument[0])
+        break
+
+    case "findPatientBy":
+        HospitalController.findPatientBy(argument[0], argument[1]);
+        break;
+
     default:
         HospitalController.help();
         break;

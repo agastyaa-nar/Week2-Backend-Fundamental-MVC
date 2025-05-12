@@ -45,10 +45,10 @@ async function login() {
     currentUser = username
     console.log(chalk.green('Login successful!'));
     console.log(chalk.cyan(`Welcome back, ${username}!`));
-
     await mainMenu()
   } else {
     console.log(chalk.red('Invalid username or password.'));
+    await startMenu()
   }
 }
 
@@ -158,10 +158,20 @@ async function logout(){
 
 async function showLeaderboard() {
   // tulis code di sini
+  await loadUsers()
+  const activeUser = users.filter(e => e.highestScore !== null)
+  
+  activeUser.sort((a,b) => a.highestScore - b.highestScore)
+
   console.clear()
   console.log('\n')
   console.log(chalk.yellow("--- Papan Skor (Top 10) ---"))
-  await sortingScore()
+  activeUser.forEach((topUser, i) => {
+    if (i > 9 ) {
+      return
+    } 
+    console.log(`${i + 1}. ${topUser.username}: ${topUser.highestScore} percobaan`)
+  })
 }
 
 async function playGame() {
@@ -170,15 +180,6 @@ async function playGame() {
 
 async function makeGuess() {
 
-}
-
-async function sortingScore() {
-  await loadUsers()
-  users.sort((a,b) => a.highestScore - b.highestScore)
-  
-  users.forEach((topUser, i) => {
-    console.log(`${i + 1}. ${topUser.username}: ${topUser.highestScore} percobaan`)
-  })
 }
 
 

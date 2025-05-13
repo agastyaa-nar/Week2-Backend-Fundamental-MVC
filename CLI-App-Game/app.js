@@ -54,12 +54,16 @@ async function login() {
 
 async function register() {
   // tulis code di sini
-  console.clear()
   console.log('\n')
   console.log(chalk.blue.bold("--- Register ---"))
 
   const username = await question(chalk.yellow('Username: '));
   const password = await question(chalk.yellow('Password: '));
+
+  if (!username || !password) {
+    console.log(chalk.red("Username dan Password tidak boleh kosong!"))
+    return await register()
+  }
 
   await loadUsers()
   if (users.some(e => e.username === username)) {
@@ -70,7 +74,8 @@ async function register() {
       password,
       highestScore: null
     })
-    await saveUsers(users)
+
+    await saveUsers()
     console.log(chalk.green('Registration successful!'));
   }
 }
@@ -143,17 +148,9 @@ async function mainMenu() {
 async function logout(){
   console.clear();
   console.log(chalk.blue.bold('--- Logout ---'));
-  const username = await question(chalk.yellow('Enter your username: '));
-
-  if(currentUser === username) {
-    currentUser = null
-    console.log(chalk.green(`${username} has been logged out.`));  
-    await startMenu()
-  } else {
-    console.log(chalk.red('User not found or not logged in.'));
-    await mainMenu()
-  }
-
+  console.log(chalk.green(`${currentUser} has been logged out.`));
+  currentUser = null
+  await startMenu()
 }
 
 async function showLeaderboard() {
@@ -176,12 +173,55 @@ async function showLeaderboard() {
 
 async function playGame() {
   // tulis code di sini
+  let expected = Math.floor(Math.random() * 100) + 1
+  let count = 0;
+  let correct = false 
+
+  console.log('\n')
+  console.log(chalk.yellow("--- Tebak Angka ---"))
+  console.log("Tebak angka antara 1 dan 100")
+    
+  while(!correct) {
+    const result = await makeGuess(expected, count)  
+    correct = result.correct;
+    count = result.count;
+  }
+  await mainMenu()
 }
 
-async function makeGuess() {
+async function makeGuess(expected, count) {
+  const answer = await question(chalk.blue("Tebakan anda:"))
+  const guess = parseInt(answer)
+    
+  if (isNaN(guess)) {
+    console.log(chalk.red("Masukkan angka yang valid!"));
+    return { correct: false, count };
+  }
 
+  count++
+
+  if(guess < expected) {
+    console.log(chalk.yellow("Terlalu rendah!"))
+    return { correct: false, count };
+  } else if (guess > expected) {
+    console.log(chalk.yellow("Terlalu tinggi!"))
+    return { correct: false, count };
+  } else {
+    console.log(chalk.green(`Selamat anda menebak dengan benar dalam ${count} percobaan.`))
+      
+    await loadUsers()
+    const player = users.find(e => e.username === currentUser) 
+
+    if (player.highestScore === null || count < player.highestScore) {
+      console.log (chalk.green("Ini adalah skor tertinggi baru Anda!  "))
+    }
+
+    player.highestScore = count
+    await saveUsers()
+
+    return { correct: true, count };
+  }
 }
-
 
 // Fungsi utama untuk menjalankan aplikasi
 async function main() {

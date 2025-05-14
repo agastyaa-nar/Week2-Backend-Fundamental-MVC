@@ -1,4 +1,5 @@
 import Pawn from './pieces/Pawn.js';
+import Rook from './pieces/Rook.js';
 
 export default class Board {
   constructor() {
@@ -10,6 +11,10 @@ export default class Board {
     for (let col = 0; col < 8; col++) {
       this.grid[1][col] = new Pawn('black');
       this.grid[6][col] = new Pawn('white');
+      this.grid[0][0] = new Rook('black');
+      this.grid[0][7] = new Rook('black');
+      this.grid[7][0] = new Rook('white');
+      this.grid[7][7] = new Rook('white');
     }
   }
 
@@ -20,4 +25,5 @@ export default class Board {
   setPiece([row, col], piece) {
     this.grid[row][col] = piece;
   }
+  
 }

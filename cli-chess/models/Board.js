@@ -3,6 +3,7 @@ import Rook from './pieces/Rook.js';
 import Bishop from './pieces/Bishop.js';
 import Knight from './pieces/Knight.js';
 import Queen from './pieces/Queen.js';
+import King from './pieces/King.js';
 
 export default class Board {
   constructor() {
@@ -28,6 +29,8 @@ export default class Board {
       this.grid[7][6] = new Knight('white');
       this.grid[0][3] = new Queen('black');
       this.grid[7][3] = new Queen('white');
+      this.grid[0][4] = new King('black');
+      this.grid[7][4] = new King('white');
     }
   }
 

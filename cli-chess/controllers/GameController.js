@@ -3,6 +3,7 @@ import Game from '../models/Game.js';
 import ConsoleView from '../views/ConsoleView.js';
 import { parsePosition, isValidInput } from '../utils/helpers.js';
 
+
 export default class GameController {
   constructor() {
     this.game = new Game();

@@ -1,3 +1,4 @@
-import { askMove } from './controller.js'
+import GameController from './controllers/GameController.js';
 
-askMove();
+const game = new GameController();
+game.start();

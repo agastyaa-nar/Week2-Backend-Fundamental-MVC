@@ -1,6 +1,7 @@
 import Pawn from './pieces/Pawn.js';
 import Rook from './pieces/Rook.js';
 import Bishop from './pieces/Bishop.js';
+import Knight from './pieces/Knight.js';
 
 export default class Board {
   constructor() {
@@ -20,6 +21,10 @@ export default class Board {
       this.grid[0][5] = new Bishop('black');
       this.grid[7][2] = new Bishop('white');
       this.grid[7][5] = new Bishop('white');
+      this.grid[0][1] = new Knight('black');
+      this.grid[0][6] = new Knight('black');
+      this.grid[7][1] = new Knight('white');
+      this.grid[7][6] = new Knight('white');
     }
   }
 

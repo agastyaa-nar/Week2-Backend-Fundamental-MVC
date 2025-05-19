@@ -1,6 +1,7 @@
 export class ConsoleView {
   printBoard(board) {
     const letters = '  a b c d e f g h';
+    console.log("\n")
     console.log(letters);
     for (let i = 0; i < 8; i++) {
       const row = board.grid[i]
@@ -29,6 +30,10 @@ export class ConsoleView {
 
   showDraw(player) {
     console.log(`Remis! Tidak ada langkah sah untuk ${player.toUpperCase()}`);
+  }
+
+  showPromotion(piece) {
+    console.log(`Pion dipromosikan menjadi ${piece.symbol}`);
   }
 
 }

@@ -21,7 +21,7 @@ export class Bishop extends Piece {
     let row = fromRow + stepRow;
     let col = fromCol + stepCol;
 
-    while (row !== toRow && col !== toCol) {
+    while (row !== toRow || col !== toCol) {
       if (board[row][col]) return false; // Ada penghalang
       row += stepRow;
       col += stepCol;

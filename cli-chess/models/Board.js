@@ -20,16 +20,20 @@ export class Board {
     this.grid[0][7] = new Rook('black');
     this.grid[7][0] = new Rook('white');
     this.grid[7][7] = new Rook('white');
+
     this.grid[0][2] = new Bishop('black');
     this.grid[0][5] = new Bishop('black');
     this.grid[7][2] = new Bishop('white');
     this.grid[7][5] = new Bishop('white');
+
     this.grid[0][1] = new Knight('black');
     this.grid[0][6] = new Knight('black');
     this.grid[7][1] = new Knight('white');
     this.grid[7][6] = new Knight('white');
+
     this.grid[0][3] = new Queen('black');
     this.grid[7][3] = new Queen('white');
+    
     this.grid[0][4] = new King('black');
     this.grid[7][4] = new King('white');
   }

@@ -1,39 +1,25 @@
-import { pathIsClear } from "../utils/helpers.js";
+import { findKingPosition } from "./helpers.js";
 
-export function findKingPosition(color, board) {
-  for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 8; col++) {
-      const piece = board.grid[row][col];
-      if (piece && piece.type === 'King' && piece.color === color){
-        return [row, col];
-      }
-    }
-  }
-  return null; // Jika raja tidak ditemukan
-}
-
-export function isCheckmate(color, board) {
+export function isCheckmate(color, board, game) {
   // Jika raja sedang skak dan tidak ada langkah legal, maka skakmat
-  return isCheck(color, board) && !hasLegalMoves(color, board);
+  return isCheck(color, board, game) && !hasLegalMoves(color, board, game);
 }
-
 
 // Mengecek apakah raja warna tertentu sedang skak
-export function isCheck(color, board) {
-  const kingPos = findKingPosition(color, board);
+export function isCheck(color, board, game) {
+  const kingPos = findKingPosition(color, board.grid);
   if (!kingPos) return false;
 
+  // Periksa semua bidak lawan
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
       const piece = board.grid[row][col];
       if (piece && piece.color !== color) {
         const from = [row, col];
         const to = kingPos;
-        if (piece.canMove(from, to, board.grid)) {
-          // Tambahan validasi: cek kalau jalurnya tidak terhalang (kecuali Knight)
-          if (piece.constructor.name === 'Knight' || pathIsClear(from, to, board.grid)) {
-            return true;
-          }
+        // Periksa apakah bidak lawan bisa menyerang raja
+        if (piece.canMove(from, to, board.grid, game)) {
+          return true;
         }
       }
     }
@@ -41,28 +27,24 @@ export function isCheck(color, board) {
   return false;
 }
 
-
 // Mengecek apakah pemain masih memiliki langkah sah
-export function hasLegalMoves(color, board) {
+export function hasLegalMoves(color, board, game) {
   for (let fromRow = 0; fromRow < 8; fromRow++) {
     for (let fromCol = 0; fromCol < 8; fromCol++) {
       const piece = board.grid[fromRow][fromCol];
       if (piece && piece.color === color) {
         for (let toRow = 0; toRow < 8; toRow++) {
           for (let toCol = 0; toCol < 8; toCol++) {
-            if ((fromRow !== toRow || fromCol !== toCol) && piece.canMove([fromRow, fromCol], [toRow, toCol], board.grid)) {
-              // Simulasikan langkah tersebut
-              const temp = board.grid[toRow][toCol];
-              board.grid[toRow][toCol] = piece;
-              board.grid[fromRow][fromCol] = null;
+            if ((fromRow !== toRow || fromCol !== toCol) && piece.canMove([fromRow, fromCol], [toRow, toCol], board.grid, game)) {
+              // Simulasi langkah pada salinan grid
+              const simulatedGrid = cloneGrid(board.grid);
+              simulatedGrid[toRow][toCol] = piece;
+              simulatedGrid[fromRow][fromCol] = null;
 
-              const stillInCheck = isCheck(color, board);
-
-              // Kembalikan posisi seperti semula
-              board.grid[fromRow][fromCol] = piece;
-              board.grid[toRow][toCol] = temp;
-
-              if (!stillInCheck) return true;
+              // Cek apakah setelah langkah, raja masih skak
+              if (!isCheck(color, { grid: simulatedGrid }, game)) {
+                return true;
+              }
             }
           }
         }
@@ -71,3 +53,9 @@ export function hasLegalMoves(color, board) {
   }
   return false;
 }
+
+function cloneGrid(grid) {
+  return grid.map(row => row.slice());
+}
+
+

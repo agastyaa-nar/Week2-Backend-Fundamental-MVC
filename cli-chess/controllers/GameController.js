@@ -25,6 +25,11 @@ export class GameController {
   handleMove(input) {
     const [from, to] = input.trim().split(' ');
 
+    if (!from || !to || !isValidInput(from, to)) {
+      this.view.showError('Format salah.');
+      return this.start();
+    }
+
     if (!isValidInput(from, to)) {
       this.view.showError('Format salah.');
       return this.start();
@@ -32,8 +37,6 @@ export class GameController {
 
     const fromCoord = parsePosition(from);
     const toCoord = parsePosition(to);
-
-    const current = this.game.currentPlayer;
 
     const result = this.game.movePiece(fromCoord, toCoord);
     if (result.error) {
@@ -44,22 +47,26 @@ export class GameController {
     if (result.capture) {
       this.view.showCapture(result.piece, result.capture);
     }
+    
+    if (result.promotion) {
+      this.view.showPromotion(result.promotedTo);
+    }
 
     this.view.printBoard(this.game.board);
 
-    // Cek kondisi lawan setelah giliran berganti
-    const opponent = current === 'white' ? 'black' : 'white';
-    const gameEnded = this.checkGameState(opponent);
+    // Setelah langkah, currentPlayer sudah berganti ke lawan
+    const gameEnded = this.checkGameState(this.game.currentPlayer);
 
     if (!gameEnded) {
       this.start();
     }
   }
 
+
   checkGameState(player) {
     const board = this.game.board;
 
-    if (isCheckmate(player, board)) {
+    if (isCheckmate(player, board, this.game)) {
       const winner = player === 'white' ? 'black' : 'white';
       this.view.showCheckmate(winner);
       this.rl.close();
@@ -71,7 +78,7 @@ export class GameController {
       return false;
     }
 
-    if (!hasLegalMoves(player, board)) {
+    if (!hasLegalMoves(player, board, this.game)) {
       this.view.showDraw(player);
       this.rl.close();
       return true;
@@ -79,5 +86,4 @@ export class GameController {
 
     return false;
   }
-
 }

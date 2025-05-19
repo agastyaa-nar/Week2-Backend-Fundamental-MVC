@@ -6,7 +6,7 @@ export class Pawn extends Piece {
     this.type = 'Pawn';
   }
 
-  canMove(from, to, board) {
+  canMove(from, to, board, game) {
     const [fromRow, fromCol] = from;
     const [toRow, toCol] = to;
 
@@ -31,7 +31,7 @@ export class Pawn extends Piece {
       return true;
     }
 
-    // Menyerang diagonal
+    // Menyerang diagonal biasa
     const target = board[toRow][toCol];
     if (
       Math.abs(diffCol) === 1 &&
@@ -42,11 +42,22 @@ export class Pawn extends Piece {
       return true;
     }
 
+    // En Passant
+    if (
+      Math.abs(diffCol) === 1 &&
+      diffRow === direction &&
+      !target && // kotak tujuan kosong
+      game.lastMove &&
+      game.lastMove.piece.type === 'Pawn' &&
+      game.lastMove.piece.color !== this.color &&
+      Math.abs(game.lastMove.to[0] - game.lastMove.from[0]) === 2 && // pion lawan double step
+      game.lastMove.to[0] === fromRow && // baris sama dengan pion kita (di samping)
+      game.lastMove.to[1] === toCol // kolom pion lawan sesuai kolom target en passant
+    ) {
+      return true;
+    }
+
     return false;
   }
 
-  isEnemy(piece) {
-    return piece && piece.color !== this.color;
-  }
 }
-

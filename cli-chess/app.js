@@ -1,4 +1,4 @@
 import { GameController } from './controllers/GameController.js';
 
 const game = new GameController();
-game.start();
+game.startMenu();

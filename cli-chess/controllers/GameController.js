@@ -15,6 +15,47 @@ export class GameController {
     });
   }
 
+  startMenu() {
+    console.clear();
+    console.log("===========================");
+    console.log("      CLI Chess Game       ");
+    console.log("===========================");
+    console.log("1. Mulai Permainan");
+    console.log("2. Petunjuk");
+    console.log("3. Keluar");
+    console.log("---------------------------");
+
+    this.rl.question("Masukkan pilihan (1-3): ", (choice) => {
+      switch (choice.trim()) {
+        case '1':
+          this.start(); // mulai game
+          break;
+        case '2':
+          this.showInstructions();
+          break;
+        case '3':
+          console.log("\nSampai jumpa! 👋");
+          this.rl.close();
+          break;
+        default:
+          console.log("Pilihan tidak valid. Silakan coba lagi.\n");
+          this.startMenu(); // tampilkan ulang
+      }
+    });
+  }
+
+  showInstructions() {
+    console.clear();
+    console.log("=== Petunjuk Permainan ===");
+    console.log("- Gunakan format langkah seperti: e2 e4");
+    console.log("- Tujuan permainan: skakmat raja lawan.");
+    console.log("- En passant, promosi pion, dan skakmat didukung.");
+    console.log("- Ketik langkah saat giliran Anda.");
+    console.log("\nTekan ENTER untuk kembali ke menu...");
+    this.rl.question('', () => this.startMenu());
+  }
+
+
   start() {
     this.view.printBoard(this.game.board);
     this.rl.question(`\n Giliran ${this.game.currentPlayer} → Masukkan langkah : `, (input) => {
@@ -61,7 +102,6 @@ export class GameController {
       this.start();
     }
   }
-
 
   checkGameState(player) {
     const board = this.game.board;

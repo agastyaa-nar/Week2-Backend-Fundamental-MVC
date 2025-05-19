@@ -1,6 +1,6 @@
-import Piece from './Piece.js';
+import { Piece } from './Piece.js';
 
-export default class Rook extends Piece {
+export class Rook extends Piece {
   constructor(color) {
     super(color, color === 'white' ? '♖' : '♜');
   }
@@ -11,8 +11,8 @@ export default class Rook extends Piece {
 
     if (fromRow !== toRow && fromCol !== toCol) return false;
 
-    const stepRow = fromRow === toRow ? 0 : (toRow > fromRow ? 1 : -1);
-    const stepCol = fromCol === toCol ? 0 : (toCol > fromCol ? 1 : -1);
+    const stepRow = toRow === fromRow ? 0 : (toRow > fromRow ? 1 : -1);
+    const stepCol = toCol === fromCol ? 0 : (toCol > fromCol ? 1 : -1);
 
     let row = fromRow + stepRow;
     let col = fromCol + stepCol;

@@ -1,6 +1,6 @@
-import Piece from './Piece.js';
+import { Piece } from './Piece.js';
 
-export default class Bishop extends Piece {
+export class Bishop extends Piece {
   constructor(color) {
     super(color, color === 'white' ? '♗' : '♝');
   }

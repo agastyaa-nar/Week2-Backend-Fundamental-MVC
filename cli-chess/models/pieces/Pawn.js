@@ -1,6 +1,6 @@
-import Piece from './Piece.js'
+import { Piece } from './Piece.js'
 
-export default class Pawn extends Piece {
+export class Pawn extends Piece {
   constructor(color) {
     super(color, color === 'white' ? '♙' : '♟');
   }

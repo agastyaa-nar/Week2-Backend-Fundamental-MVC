@@ -1,4 +1,4 @@
-export default class ConsoleView {
+export class ConsoleView {
   printBoard(board) {
     const letters = '  a b c d e f g h';
     console.log(letters);
@@ -18,4 +18,17 @@ export default class ConsoleView {
   showCapture(attacker, target) {
     console.log(`${attacker.symbol} memakan ${target.symbol}`);
   }
+
+  showCheck(player) {
+  console.log(`${player.toUpperCase()} sedang skak!`);
+  }
+
+  showCheckmate(winner) {
+    console.log(`Skakmat! ${winner.toUpperCase()} menang!`);
+  }
+
+  showDraw(player) {
+    console.log(`Remis! Tidak ada langkah sah untuk ${player.toUpperCase()}`);
+  }
+
 }

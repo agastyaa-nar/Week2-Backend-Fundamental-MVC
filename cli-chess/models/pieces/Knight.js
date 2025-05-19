@@ -1,6 +1,6 @@
-import Piece from './Piece.js';
+import { Piece } from './Piece.js';
 
-export default class Knight extends Piece {
+export class Knight extends Piece {
   constructor(color) {
     super(color, color === 'white' ? '♘' : '♞');
   }
@@ -12,14 +12,12 @@ export default class Knight extends Piece {
     const rowDiff = Math.abs(fromRow - toRow);
     const colDiff = Math.abs(fromCol - toCol);
 
-    const isLShape =
-      (rowDiff === 2 && colDiff === 1) ||
-      (rowDiff === 1 && colDiff === 2);
+    if ((rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2)) {
+      const target = board[toRow][toCol];
+      return !target || this.isEnemy(target);
+    }
 
-    if (!isLShape) return false;
-
-    const target = board[toRow][toCol];
-    return !target || this.isEnemy(target);
+    return false;
   }
 
   isEnemy(piece) {

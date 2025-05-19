@@ -3,6 +3,7 @@ import { Piece } from './Piece.js';
 export class Knight extends Piece {
   constructor(color) {
     super(color, color === 'white' ? '♘' : '♞');
+    this.type = 'Knight';
   }
 
   canMove(from, to, board) {

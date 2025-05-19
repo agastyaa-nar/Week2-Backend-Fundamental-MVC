@@ -1,13 +1,17 @@
+// Queen.js
 import { Piece } from './Piece.js';
+import { Bishop } from './Bishop.js';
+import { Rook } from './Rook.js';
 
 export class Queen extends Piece {
   constructor(color) {
     super(color, color === 'white' ? '♕' : '♛');
+    this.type = 'Queen';
   }
 
-  async canMove(from, to, board) {
-    const bishop = new (await import('./Bishop.js')).Bishop(this.color);
-    const rook = new (await import('./Rook.js')).Rook(this.color);
+  canMove(from, to, board) {
+    const bishop = new Bishop(this.color);
+    const rook = new Rook(this.color);
     return bishop.canMove(from, to, board) || rook.canMove(from, to, board);
   }
 

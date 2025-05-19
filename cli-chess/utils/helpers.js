@@ -13,3 +13,27 @@ export function isValidInput(from, to) {
   };
   return allValid(from) && allValid(to);
 }
+
+export function pathIsClear(from, to, grid) {
+  const [fromRow, fromCol] = from;
+  const [toRow, toCol] = to;
+
+  const rowStep = Math.sign(toRow - fromRow);
+  const colStep = Math.sign(toCol - fromCol);
+
+  let currentRow = fromRow + rowStep;
+  let currentCol = fromCol + colStep;
+
+  while (currentRow !== toRow || currentCol !== toCol) {
+    if (grid[currentRow][currentCol] !== null) {
+      return false;
+    }
+    currentRow += rowStep;
+    currentCol += colStep;
+  }
+
+  return true;
+}
+
+
+

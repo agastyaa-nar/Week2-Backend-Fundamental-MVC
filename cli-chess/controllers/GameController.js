@@ -2,7 +2,7 @@ import readline from 'readline';
 import { Game } from '../models/Game.js';
 import { ConsoleView } from '../views/ConsoleView.js';
 import { parsePosition, isValidInput } from '../utils/helpers.js';
-import { isCheck, hasLegalMoves } from '../utils/chessRules.js';
+import { isCheckmate, isCheck, hasLegalMoves } from '../utils/chessRules.js';
 
 
 export class GameController {
@@ -33,38 +33,46 @@ export class GameController {
     const fromCoord = parsePosition(from);
     const toCoord = parsePosition(to);
 
+    const current = this.game.currentPlayer;
+
     const result = this.game.movePiece(fromCoord, toCoord);
     if (result.error) {
       this.view.showError(result.error);
-      return this.start(); // tambahkan return di sini agar tidak lanjut evaluasi
+      return this.start();
     }
 
     if (result.capture) {
       this.view.showCapture(result.piece, result.capture);
     }
 
-    this.view.printBoard(this.game.board); // tampilkan papan setelah langkah
+    this.view.printBoard(this.game.board);
 
-    const gameEnded = this.checkGameState();
+    // Cek kondisi lawan setelah giliran berganti
+    const opponent = current === 'white' ? 'black' : 'white';
+    const gameEnded = this.checkGameState(opponent);
+
     if (!gameEnded) {
-      this.start(); // hanya lanjut jika permainan belum selesai
+      this.start();
     }
   }
 
-  checkGameState() {
-    const current = this.game.currentPlayer;
+  checkGameState(player) {
     const board = this.game.board;
 
-    if (isCheck(current, board)) {
-      if (!hasLegalMoves(current, board)) {
-        this.view.showCheckmate(current === 'white' ? 'black' : 'white');
-        this.rl.close();
-        return true;
-      } else {
-        this.view.showCheck(current);
-      }
-    } else if (!hasLegalMoves(current, board)) {
-      this.view.showDraw(current);
+    if (isCheckmate(player, board)) {
+      const winner = player === 'white' ? 'black' : 'white';
+      this.view.showCheckmate(winner);
+      this.rl.close();
+      return true;
+    }
+
+    if (isCheck(player, board)) {
+      this.view.showCheck(player);
+      return false;
+    }
+
+    if (!hasLegalMoves(player, board)) {
+      this.view.showDraw(player);
       this.rl.close();
       return true;
     }

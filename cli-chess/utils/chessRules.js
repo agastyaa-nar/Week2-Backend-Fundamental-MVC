@@ -1,8 +1,10 @@
+import { pathIsClear } from "../utils/helpers.js";
+
 export function findKingPosition(color, board) {
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
       const piece = board.grid[row][col];
-      if (piece && piece.constructor.name === 'King' && piece.color === color) {
+      if (piece && piece.type === 'King' && piece.color === color){
         return [row, col];
       }
     }
@@ -10,23 +12,35 @@ export function findKingPosition(color, board) {
   return null; // Jika raja tidak ditemukan
 }
 
+export function isCheckmate(color, board) {
+  // Jika raja sedang skak dan tidak ada langkah legal, maka skakmat
+  return isCheck(color, board) && !hasLegalMoves(color, board);
+}
+
+
 // Mengecek apakah raja warna tertentu sedang skak
 export function isCheck(color, board) {
   const kingPos = findKingPosition(color, board);
-  if (!kingPos) return false; // Raja tidak ditemukan
+  if (!kingPos) return false;
 
   for (let row = 0; row < 8; row++) {
     for (let col = 0; col < 8; col++) {
       const piece = board.grid[row][col];
       if (piece && piece.color !== color) {
-        if (piece.canMove([row, col], kingPos, board.grid)) {
-          return true;
+        const from = [row, col];
+        const to = kingPos;
+        if (piece.canMove(from, to, board.grid)) {
+          // Tambahan validasi: cek kalau jalurnya tidak terhalang (kecuali Knight)
+          if (piece.constructor.name === 'Knight' || pathIsClear(from, to, board.grid)) {
+            return true;
+          }
         }
       }
     }
   }
   return false;
 }
+
 
 // Mengecek apakah pemain masih memiliki langkah sah
 export function hasLegalMoves(color, board) {
